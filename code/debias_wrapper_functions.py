@@ -171,8 +171,8 @@ def run_crosscenter_debiasmultitask_pairwise_eval(df_train,
     sort=lambda x: tuple( pd.Series(x).sort_values().values )
     all_tasks = sort([sort(l) for l in all_tasks])
     
-    df_train.loc[df_train.sum(axis=1)== 0] += 1e-6 ## add pseudocount if needed to avoid NaN errors
-    df_test.loc[df_test.sum(axis=1) == 0] += 1e-6 ## < 10
+    df_train.loc[df_train.sum(axis=1)== 0] += 1e-8 ## add pseudocount if needed to avoid NaN errors
+    df_test.loc[df_test.sum(axis=1) == 0] += 1e-8 ## < 10
         
     all_rocs = []
     all_eval_tasks=[]
@@ -237,8 +237,6 @@ def run_crosscenter_debiasmultitask_pairwise_eval(df_train,
 
                 cols = ( tmp_df_train > eps_).mean(axis=0) > .01
                 
-#                 cols = ( tmp_df_train > eps_).mean(axis=0) > -1 ## tal test adjustment
-                
                 tmp_df_train[np.isnan(tmp_df_train)]=eps_
                 tmp_df_test[np.isnan(tmp_df_test)]=eps_
                 
@@ -302,7 +300,7 @@ def run_crosscenter_debiasmultitask_pairwise_eval(df_train,
                         all_test_centers.append(md_test_1.data_submitting_center_label.values\
                                                         [test_inds][0])
                         all_eval_tasks.append(colvals[ccols][j])
-                        all_val_run_inds.append(True)#v_run)
+                        all_val_run_inds.append(True)
 
                         all_train_sums.append(' - '.join([str(a) for a in 
                                             pd.Series( mdtr[:, ccols][:, j][train_inds] )\
@@ -313,7 +311,7 @@ def run_crosscenter_debiasmultitask_pairwise_eval(df_train,
                         avg_train_read_counts.append( 
                            ' - '.join( [str( md_train_1.read_count.values[train_inds]\
                                                    [ mdtr[:, ccols][:, j][train_inds] == labval \
-                                                      ].sum() )# ].mean() )
+                                                      ].sum() )
                                         for labval in [0,1]
                                        ] ) )
 
@@ -325,22 +323,9 @@ def run_crosscenter_debiasmultitask_pairwise_eval(df_train,
                                        ] ) )
                         
                         
-#                         coef_summary_df = \
-#                                 pd.DataFrame({'coefs': np.array([-1, 1]) @ 
-#                                               [p for p in mdmc.model.linear_weights[1].parameters()][j].detach().numpy(), 
-#                                               'feature_name':cols[cols].index.values,
-#                                                'test_center':md_test_1.data_submitting_center_label.values\
-#                                                         [test_inds][0],
-#                                               'eval_task':colvals[ccols][j], 
-#                                               })
-                        
-#                         all_inference_dfs.append(coef_summary_df)
-                        
 
                 print(all_rocs)
-                    
-
-#     pd.concat(all_inference_dfs).to_csv('../results/COEF_ONE_V_ALL_DEBIAS_INFERENCE.csv')
+                
                     
     return(pd.DataFrame({'auROC':all_rocs, 
                          'Task':[ a for a in all_eval_tasks], 

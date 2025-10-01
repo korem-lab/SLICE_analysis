@@ -91,15 +91,6 @@ def make_scatterlineplot(in_path,
                        linewidth=1,
                        )
 
-#     ax = sns.swarmplot(x=x_val, 
-#                        y=y_val, 
-#                        data=df_tmp.reset_index(), 
-#                        color=col, 
-#                        s=15,
-#                        edgecolor='black', 
-#                        linewidth=1,
-#                        )
-
     # Add vertical lines spanning min to max y-values for each category
     for category in df_tmp[x_val].unique():
         x_pos = list(df_tmp[x_val].unique()).index(category)  # Get x position
@@ -127,7 +118,6 @@ def make_scatterlineplot(in_path,
     if hide_axes:
         ax.set_xticks([])
         ax.set(yticks=np.linspace(0,1,5),
-               #ax.get_yticks(),#[0.1, 0.3,0.5,0.7, 0.9],
                yticklabels=[])
         plt.xlabel(None)
         plt.ylabel(None)
@@ -213,7 +203,7 @@ def make_plot(in_path,
         
     else:
         plt.figure(figsize=( 1.2 * df[x_val].nunique(), 8 ))
-#         plt.figure(figsize=(8,8))
+        
     
     
         
@@ -224,12 +214,11 @@ def make_plot(in_path,
                                             if 'debias'  in in_path else
                           ['salmon' if 'onevall' in in_path else 'darkorange'][0] ][0]
                     )
-#     ax.set(yticks=[0.1,0.3,0.5,0.7,0.9])
+    
     ax.set(yticks=np.linspace(0,1,5))
     if hide_axes:
         ax.set_xticks([])
         ax.set(yticks=np.linspace(0,1,5),
-               #ax.get_yticks(),#[0.1, 0.3,0.5,0.7, 0.9],
                yticklabels=[])
         plt.xlabel(None)
         plt.ylabel(None)
@@ -272,11 +261,6 @@ def make_full_method_comparison_plot(
     
     dfs[-1] = dfs[-1].loc[dfs[-1].shuffle_type=='center_and_site_shuffled_labels']
     dfs[-2] = dfs[-2].loc[dfs[-2].shuffle_type=='center_and_site_shuffled_labels']
-    
-    
-#     dfs[-1] = dfs[-1].loc[dfs[-1].shuffle_type=='site_shuffled_labels']
-#     dfs[-2] = dfs[-2].loc[dfs[-2].shuffle_type=='site_shuffled_labels']
-
     
     plot_df=pd.concat( dfs )
 
@@ -323,13 +307,12 @@ def make_full_method_comparison_plot(
         plt.legend().remove()
 
         plt.xticks(rotation=90)
-#         plt.ylim(-0.05,1.05)
         plt.ylim(-0.05,1.1)
 
         out_path=os.path.join('../results/plots/', 
                               'oncogv4-onevall-and-pairwise-across-models.pdf')
         
-        ax.set(yticks=np.linspace(0,1,5))#[0.1, 0.3, 0.5,0.7, 0.9])
+        ax.set(yticks=np.linspace(0,1,5))
         if hide_axes:
             ax.set_xticks([])
             ax.set(yticks=ax.get_yticks(),
@@ -377,7 +360,7 @@ def make_full_method_comparison_plot(
         out_path=os.path.join('../results/plots/', 
                               'oncogv4-negative-control-plot.pdf')
         
-        ax.set(yticks=np.linspace(0,1,5))#[0.1, 0.3, 0.5,0.7, 0.9])
+        ax.set(yticks=np.linspace(0,1,5))
         if hide_axes:
             ax.set_xticks([])
             ax.set(yticks=ax.get_yticks(),
@@ -398,98 +381,7 @@ def make_full_method_comparison_plot(
 
         
 def make_read_count_scatterplot():
-#     df_res = pd.read_csv('../results/03-debiasm-pairwise.csv', index_col=0)
-    ## temporart
-#     df_res = pd.read_csv('../results/03-debiasm-pairwise-read-count-sum.csv', index_col=0)
-#     df_res=df_res.loc[df_res.datasets=='oncog_v4 --> oncog_v4']
 
-#     df_res['train_upper_n'] = df_res.train_sums.str.split(' - ').str[1].astype(int)
-#     df_res['train_lower_n'] = df_res.train_sums.str.split(' - ').str[2].astype(int)
-#     df_res['test_upper_n'] = df_res.test_sums.str.split(' - ').str[0].astype(int)
-#     df_res['test_lower_n'] = df_res.test_sums.str.split(' - ').str[1].astype(int)
-
-#     df_res['train_read_count_1'] = df_res.train_read_counts.str.split(' - ').str[0].astype(float)
-#     df_res['train_read_count_2'] = df_res.train_read_counts.str.split(' - ').str[1].astype(float)
-#     df_res['test_read_count_1']  = df_res.test_read_counts.str.split(' - ').str[0].astype(float)
-#     df_res['test_read_count_2']  = df_res.test_read_counts.str.split(' - ').str[1].astype(float)
-    
-
-    
-
-#     for hide_axes in [False, True]:
-#         sample_sums=np.sum([
-#                             df_res['train_upper_n'],
-#                             df_res['train_lower_n'],
-#                             df_res['test_upper_n'] ,
-#                             df_res['test_lower_n'] 
-#                             ], axis=0
-#                             )
-        
-#         sample_sums_overall =np.sum([
-#                             df_res['train_upper_n'],
-#                             df_res['train_lower_n'],
-#                             df_res['test_upper_n'] ,
-#                             df_res['test_lower_n'] 
-#                             ], axis=0
-#                             )
-        
-        
-#         plt.figure(figsize=(8,8))
-#         ax= sns.scatterplot(x = sample_sums, 
-#                             y = np.sum([df_res['train_read_count_1'],  
-#                                          df_res['train_read_count_2'],
-#                                          df_res['test_read_count_1'],
-#                                          df_res['test_read_count_2']
-#                                          ], axis=0) / sample_sums,
-#                             hue=df_res.auROC, 
-#                             linewidth=0,
-#                             s=500, 
-#                             palette='viridis_r', 
-#                             alpha=.9
-#                             )
-        
-        
-#         plt.semilogy()
-#         plt.xlabel('Total train + test samples')
-#         plt.ylabel('Avg read count per train and test sample\nweighted by pairwise tumor types\nand across train/test sets')
-#         plt.legend().remove()#loc=(1.1,.5))
-#         plt.title('Low read and sample count lowers pairwise TCGA performance')
-
-#         out_path=os.path.join('../results/plots/', 
-#                               'oncog-v4-evaluate-read-count-and-training-size.pdf')
-
-#         if hide_axes:
-#             ax.set_xticklabels([])
-#             ax.set_yticklabels([])
-#             plt.xlabel(None)
-#             plt.ylabel(None)
-#             plt.title(None)
-#             out_path=out_path[:-4] + '-no-axes'+out_path[-4:]
-
-#         plt.savefig(out_path, 
-#                     format='pdf',
-#                     bbox_inches='tight', 
-#                     dpi=900
-#                     )
-        
-        
-#     ## make the colorbar
-#     # Define the colormap and normalization\
-#     norm = plt.Normalize(df_res.auROC.min(), df_res.auROC.max())
-#     sm = plt.cm.ScalarMappable(cmap="viridis_r", norm=norm)
-#     sm.set_array([])
-
-#     # Create the figure and axes
-#     fig, ax = plt.subplots(figsize=(8, 1))  # Adjust size as needed
-
-#     # Add the colorbar
-#     cbar = fig.colorbar(sm, cax=ax, orientation='horizontal') # or 'vertical'
-    
-#     plt.savefig(out_path[:-4] + '-colorbar.pdf', 
-#                 format='pdf',
-#                 bbox_inches='tight', 
-#                 dpi=900
-#                 )
     
     df_res = pd.read_csv('../results/03-debiasm-pairwise.csv', index_col=0)
     df_res=df_res.loc[df_res.datasets=='oncog_v4 --> oncog_v4']
@@ -768,7 +660,6 @@ def make_crossstudy_boxplots(x_val='datasets',
             if hide_axes:
                 ax.set_xticks([])
                 ax.set(yticks=np.linspace(0,1,5),
-                       #ax.get_yticks(),#[0.1, 0.3,0.5,0.7, 0.9],
                        yticklabels=[])
                 plt.xlabel(None)
                 plt.ylabel(None)
@@ -793,7 +684,7 @@ def make_crossstudy_boxplots(x_val='datasets',
     for in_path in ['../results/01-baseline-pairwise.csv', 
                     '../results/02-baseline-onevall.csv']:
                     
-#         df = pd.read_csv(in_path)
+        
         if 'pairwise' in in_path:
             df1 = pd.read_csv('../results/01-baseline-pairwise.csv', 
                       index_col=0)
@@ -812,7 +703,7 @@ def make_crossstudy_boxplots(x_val='datasets',
             
 
             plt.figure(figsize=( 1.2 * df[x_val].nunique(), 8 ))
-            #         plt.figure(figsize=(8,8))
+            
 
             ax=make_boxplot(df, 
                             x_val=x_val,
@@ -822,19 +713,18 @@ def make_crossstudy_boxplots(x_val='datasets',
                                   ['salmon' if 'onevall' in in_path else 'darkorange'][0] ][0], 
                             css_order=ghi_order
                             )
-            #     ax.set(yticks=[0.1,0.3,0.5,0.7,0.9])
+            
             ax.set(yticks=np.linspace(0,1,5))
             if hide_axes:
                 ax.set_xticks([])
                 ax.set(yticks=np.linspace(0,1,5),
-                       #ax.get_yticks(),#[0.1, 0.3,0.5,0.7, 0.9],
                        yticklabels=[])
                 plt.xlabel(None)
                 plt.ylabel(None)
                 plt.title(None)
                 out_path=out_path[:-4] + '-no-axes'+out_path[-4:]
 
-        #     plt.ylim(-0.05,1.05)
+            
             plt.ylim(-0.05,1.1)
 
             plt.savefig(out_path, 
@@ -849,8 +739,6 @@ def main():
     
     ## general debias plots
     for in_path in [
-#                     '../results/01-baseline-pairwise.csv',
-#                     '../results/02-baseline-onevall.csv',
                     '../results/03-debiasm-pairwise.csv', 
                     '../results/04-debias-onevall.csv'
                     ]:
@@ -866,55 +754,14 @@ def main():
                         hide_axes) for hide_axes in [False,True] ]
             
             if xval=='datasets':
-#                 if 'debias' in in_path:
                 [ make_plot(in_path,
                             out_path, 
                             xval, 
                             hide_axes,
                             same_train_test_processing=False
                             ) for hide_axes in [False,True] ]
-#                 elif 'baseline' in in_path:
-#                     [ make_plot(in_path,
-#                                 out_path, 
-#                                 xval, 
-#                                 hide_axes,
-#                                 plot_gihawi=True,
-#                                 ) for hide_axes in [False,True] ]
-                
-                
-    ## per task plots
-#     for in_path in [
-#                     '../results/03-debiasm-pairwise.csv', 
-#                     '../results/04-debias-onevall.csv'
-#                     ]:
     
-#         for xval in ['Task']:
-
-#             out_path = os.path.join('../results/plots/', 
-#                                     '{}-by-{}.pdf'.format(in_path.split('/')[-1][:-4]\
-#                                                                   .replace('_with_pval', ''),
-#                                                           xval) )
-
-#             [ make_scatterlineplot(in_path,
-#                                    out_path, 
-#                                    xval, 
-#                                    hide_axes) for hide_axes in [False,True] ]
                 
-                
-    
-    
-
-    # negative control plots
-#     for in_path in ['../results/06-negative-control-debias-pairwise.csv']:
-#         for xval in ['shuffle_type']:
-
-#             out_path = os.path.join('../results/plots/', 
-#                                     '{}-by-{}.pdf'.format(in_path.split('/')[-1][:-4], xval) )
-
-#             [ make_plot(in_path,
-#                         out_path, 
-#                         xval, 
-#                         hide_axes) for hide_axes in [False,True] ]
 
 
     ## read count filtering plot
@@ -964,8 +811,7 @@ def main():
     
         if hide_axes:
             ax.set_xticks([])
-            ax.set(yticks=np.linspace(0,1,5),#[0.1, 0.3, 0.5,0.7, 0.9],
-                   #ax.get_yticks(),#[0.1, 0.3,0.5,0.7, 0.9],
+            ax.set(yticks=np.linspace(0,1,5),
                    yticklabels=[])
             plt.xlabel(None)
             plt.ylabel(None)

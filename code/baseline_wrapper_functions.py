@@ -189,8 +189,8 @@ def run_crosscenter_pairwise_eval(df_train,
     sort=lambda x: tuple( pd.Series(x).sort_values().values )
     all_tasks = sort([sort(l) for l in all_tasks])
     
-    df_train.loc[df_train.sum(axis=1) == 0 ] += 1e-6 ## add pseudocount if needed to avoid NaN errors
-    df_test.loc[df_train.sum(axis=1) == 0 ] += 1e-6
+    df_train.loc[df_train.sum(axis=1) == 0 ] += 1e-8 ## add pseudocount if needed to avoid NaN errors
+    df_test.loc[df_train.sum(axis=1) == 0 ] += 1e-8
     
     all_rocs=[]
     all_eval_tasks=[]
