@@ -104,36 +104,7 @@ def make_one_neg_control_analysis_run(train_nm='oncog_v1',
     
     md_train['disease_type'] = md_train[shuffle_type]
     md_test = md_train.copy()
-    
-    ### the below only works on certain machine types (pandas introduces multi-level indexes on others...)
-#     md_train['center_shuffled_labels'] = md_train.groupby(['data_submitting_center_label'] )['disease_type']\
-#                                                      .apply(lambda x:pd.Series( x.sample(frac=1).values, index=x.index ))
-    
-#     md_train['site_shuffled_labels'] = md_train.groupby(['tissue_source_site_label'] )['disease_type']\
-#                                                       .apply(lambda x:pd.Series( x.sample(frac=1).values, index=x.index ))
-    
-#     md_train['center_and_site_shuffled_labels'] = md_train.groupby(['data_submitting_center_label', 
-#                                                                     'tissue_source_site_label'] )\
-#                                                                             ['disease_type']\
-#                                                       .apply(lambda x:pd.Series( x.sample(frac=1).values, index=x.index ))
-#     md_train['disease_type'] = md_train[shuffle_type]
-    
-    
-#     np.random.seed(seed)
-#     md_test['center_shuffled_labels'] = md_test.groupby(['data_submitting_center_label'] )['disease_type']\
-#                                                         .apply(lambda x:pd.Series( x.sample(frac=1).values, index=x.index ))
-    
-#     md_test['site_shuffled_labels'] = md_test.groupby(['tissue_source_site_label'] )['disease_type']\
-#                                                        .apply(lambda x:pd.Series( x.sample(frac=1).values, index=x.index ))
-    
-#     md_test['center_and_site_shuffled_labels'] = md_test.groupby(['data_submitting_center_label', 
-#                                                                     'tissue_source_site_label'] )\
-#                                                                             ['disease_type']\
-#                                                          .apply(lambda x:pd.Series( x.sample(frac=1).values, index=x.index ))
-    
-#     ## make the shuffled disease type according to the specified shuffling criteria
-#     md_test['disease_type'] = md_test[shuffle_type]
-    
+
     
     res_df = run_crosscenter_pairwise_eval(df_train,
                                            md_train,
@@ -159,8 +130,8 @@ def make_one_neg_control_analysis_run(train_nm='oncog_v1',
 
 def main(results_path='../results/06.5-negative-control-baseline-pairwise.csv'):
 
-#     if os.path.exists(results_path):
-#         raise(ValueError('Results path already exists!'))
+    if os.path.exists(results_path):
+        raise(ValueError('Results path already exists!'))
         
     first_run=True
     for min_n in [5]:
