@@ -246,12 +246,7 @@ def run_crosscenter_debiasmultitask_onevall_eval(df_train,
 
                 ## > 2 since there will be some `-1` unknowns
                 ccols=( pd.DataFrame(mdtr[train_inds]).nunique(axis=0)>2 ).values 
-                mdmc = MultitaskDebiasMClassifier(x_val = X_test, 
-#                                                    batch_str = \
-#                            batch_weight_feature_and_nbatchpairs_scaling(1e4, ## default str setting
-#                                                     pd.DataFrame( np.vstack([X_train, X_test])
-#                                                                 ))
-                                                  )
+                mdmc = MultitaskDebiasMClassifier(x_val = X_test)
                 mdmc.fit(X_train, mdtr[train_inds][:, ccols])
                 ppreds = mdmc.predict_proba(X_test)
 
@@ -259,8 +254,7 @@ def run_crosscenter_debiasmultitask_onevall_eval(df_train,
                            columns=colvals[ccols], 
                            index=df_test_1.index.values[test_inds]
                            )
-                
-#                 print(ccols)
+               
 
                 formatted_preds = \
                         pd.DataFrame({
@@ -273,7 +267,6 @@ def run_crosscenter_debiasmultitask_onevall_eval(df_train,
                                     index=pppreds.index.values
                                     )
                 
-#                 for j in range(P):
                 for i,a in enumerate( colvals[ccols] ):
                     summary_dict = \
                            {'coefs': np.array([-1, 1]) @ 
@@ -330,37 +323,10 @@ def run_crosscenter_debiasmultitask_onevall_eval(df_train,
                             all_eval_tasks.append(formatted_preds.columns[j])
                             
                             
-#                             summary_dict = \
-#                                         {'coefs': np.array([-1, 1]) @ 
-#                                               [p for p in mdmc.model.linear_weights[1].parameters()][j].detach().numpy(), 
-#                                               'feature_name':df_train_1.columns.values[cols],
-#                                                'test_center':md_test_1.data_submitting_center_label.values\
-#                                                         [test_inds][0],
-#                                               'eval_task':colvals[ccols][j], 
-#                                               }
-                            
-#                             for a in summary_dict:
-#                                 print(a)
-#                                 print(np.array(summary_dict[a]).shape)
-                            
-                            
-#                             coef_summary_df = \
-#                                 pd.DataFrame({'coefs': np.array([-1, 1]) @ 
-#                                               [p for p in mdmc.model.linear_weights[1].parameters()][j].detach().numpy(), 
-#                                               'feature_name':df_train_1.columns.values[cols],
-#                                                'test_center':md_test_1.data_submitting_center_label.values\
-#                                                         [test_inds][0],
-#                                               'eval_task':colvals[ccols][j], 
-#                                               })
-                        
-#                             all_inference_dfs.append(coef_summary_df)
-                            
 
                 print(all_rocs)
 
                 
-#     pd.concat(all_inference_dfs).to_csv('../results/COEF_ONE_V_ALL_DEBIAS_INFERENCE.csv')
-#     pd.concat(all_inference_dfs).to_csv('../results/COEF_ONE_V_ALL_DEBIAS_zebra.csv')
     
     return(pd.DataFrame({'auROC':all_rocs, 
                            'Task':[ a for a in all_eval_tasks], 
