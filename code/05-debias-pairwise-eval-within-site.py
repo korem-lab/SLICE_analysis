@@ -158,11 +158,7 @@ def run_crosscenter_debiasmultitask_pairwise_eval(df_train,
                 ccols=( pd.DataFrame(mdtr.values[train_inds]).nunique(axis=0)>2 ).values
 
                 
-                mdmc = MultitaskDebiasMClassifier(x_val = X_test, 
-#                                                   batch_str = \
-#                            batch_weight_feature_and_nbatchpairs_scaling(1e4, 
-#                                pd.DataFrame( np.vstack([X_train, X_test]) ) ) ## default str setting
-                                                  )
+                mdmc = MultitaskDebiasMClassifier(x_val = X_test)
 
                 mdmc.fit(X_train, mdtr.values[train_inds][:, ccols])
 
@@ -308,31 +304,7 @@ def main(results_path='../results/05-debias-pairwise-eval-within-site.csv'):
             else:
                 pd.concat([pd.read_csv(results_path, index_col=0),
                            res_df]).reset_index(drop=True)\
-                                         .to_csv(results_path)   
-
-#         for train_nm in ['old', 'oncog_v4']:
-#             for test_nm in [
-#                             'salz_24' , 
-#                             'oncog_v4', 
-#                             'gihawi_23'
-#                             ]:
-#                 if train_nm != test_nm:
-
-#                     res_df = make_one_analysis_run(train_nm=train_nm, 
-#                                                    test_nm=test_nm, 
-#                                                    pred_approach='Multitask DEBIAS-M',
-#                                                    min_n=min_n
-#                                                    )
-
-#                     if first_run:
-#                         res_df.to_csv(results_path)
-#                         first_run=False
-
-#                     else:
-#                         pd.concat([pd.read_csv(results_path, index_col=0),
-#                                    res_df]).reset_index(drop=True)\
-#                                                  .to_csv(results_path)   
-
+                                         .to_csv(results_path) 
 
 
     print('successful run completed!!')
